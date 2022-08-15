@@ -116,7 +116,7 @@ MAIN:
     BANKSEL PORTB
     CLRF PORTA          ; Se inicia el puerto
     CLRF PORTB          ; Se inicia el puerto
-    CLRF PORTB          ; Se inicia el puerto
+    CLRF PORTC          ; Se inicia el puerto
 
     BANKSEL IOCB 
     BSF IOCB, 0         ; Se configura el pin RB0 como un pin de interrupción
