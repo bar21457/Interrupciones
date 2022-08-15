@@ -143,7 +143,7 @@ LOOP:
 ;Subrutinas
 ;*******************************************************************************
    
-INCREMENTAR_C: 
+INCREMENTO_C: 
     BTFSS PB, 0         ; Revisa el bit 0 de PB, si vale 1 se salta el REUTRN
     RETURN              
     INCF PORTC, F       ; Incrementa el valor del PORTC
@@ -152,7 +152,7 @@ INCREMENTAR_C:
     CLRF PB             ; Se limpia PB
     RETURN 
     
-DECREMENTAR_C: 
+DECREMENTO_C: 
     BTFSS PB, 1         ; Revisa el bit 1 de PB, si vale 1 se salta el REUTRN
     RETURN              
     DECF PORTC, F       ; Decrementa el valor del PORTC
