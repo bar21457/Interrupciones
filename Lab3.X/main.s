@@ -179,7 +179,7 @@ VERIFICACION:
     SUBLW 50            ; Resta el valor de CONTADOR a 50
     BTFSS STATUS, 2     ; Se verifica si el resultado es 50, si vale 1, se
                         ; salta el GOTO
-    GOTO VERIFICACION
+    GOTO LOOP
     INCF PORTC, F       ; Incrementa el valor del PORTC
     CLRF CONTADOR       ; Se limpia CONTADOR
     GOTO LOOP
