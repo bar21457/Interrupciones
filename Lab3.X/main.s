@@ -92,8 +92,8 @@ TT0IF:
     GOTO POP
     BCF INTCON, 2       ; Cambia a 0 el bit 2 de INTCON (Se apaga la bandera)
     INCF CONTADOR       ; Incrementa el valor de CONTADOR
-    MOVLW 61            ; Se carga 61 a W
-    MOVWF TMR0          ; Se carga W a TMR0 para que n = 195 y así tener 100ms
+    MOVLW 178           ; Se carga 178 a W
+    MOVWF TMR0		; Se carga el valor de n = 78 para obtener los 1000ms
     GOTO POP
 
 POP:
@@ -162,8 +162,8 @@ MAIN:
     
     BANKSEL PORTB       ; Selección del banco donde se encuentra PORTB
     CLRF CONTADOR	; Se limpia CONTADOR
-    MOVLW 61            ; Se carga 61 a W
-    MOVWF TMR0		; Se carga el valor de n = 195 para obtener los 100ms
+    MOVLW 178           ; Se carga 178 a W
+    MOVWF TMR0		; Se carga el valor de n = 78 para obtener los 1000ms
     
 ;*******************************************************************************
 ; Ejecución del programa principal
@@ -175,8 +175,8 @@ LOOP:
     
 VERIFICACION:
     MOVF CONTADOR, W    ; Carga el valor de CONTADOR a W
-    SUBLW 10            ; Resta el valor de CONTADOR a 10
-    BTFSS STATUS, 2     ; Se verifica si el resultado es 10, si vale 1, se
+    SUBLW 50            ; Resta el valor de CONTADOR a 50
+    BTFSS STATUS, 2     ; Se verifica si el resultado es 50, si vale 1, se
                         ; salta el GOTO
     GOTO VERIFICACION
     INCF PORTC, F       ; Incrementa el valor del PORTC
