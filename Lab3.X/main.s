@@ -73,10 +73,21 @@ PUSH:
     SWAPF STATUS, W
     MOVWF STATUS_TEMP
     
+TT0IF:
+    BCF INTCON, 0
+    BTFSS INTCON, 2     ; Revisa el bit 2 de INTCON (Bandera de interrupción),
+                        ; si vale 1 se salta el GOTO
+    GOTO RRBIF
+    BCF INTCON, 2       ; Cambia a 0 el bit 2 de INTCON (Se apaga la bandera)
+    INCF CONTADOR       ; Incrementa el valor de CONTADOR
+    MOVLW 178           ; Se carga 178 a W
+    MOVWF TMR0		; Se carga el valor de n = 78 para obtener los 1000ms
+    GOTO POP
+
 RRBIF:
     BTFSS INTCON, 0     ; Revisa el bit 0 de INTCON (Bandera de interrupción),
                         ; si vale 1 se salta el GOTO
-    GOTO TT0IF
+    GOTO POP
     BCF INTCON, 0       ; Cambia a 0 el bit 0 de INTCON (Se apaga la bandera)
     BTFSS PORTB, 0      ; Revisa el bit 0 de PORTB, si vale 1 se salta el 
                         ; BSF PB
@@ -84,16 +95,6 @@ RRBIF:
     BTFSS PORTB, 1      ; Revisa el bit 1 de PORTB, si vale 1 se salta el 
                         ; BSF PB
     BSF PB, 1           ; Cambia a 1 el bit 1 de PB
-    GOTO POP
-    
-TT0IF:
-    BTFSS INTCON, 2     ; Revisa el bit 2 de INTCON (Bandera de interrupción),
-                        ; si vale 1 se salta el GOTO
-    GOTO POP
-    BCF INTCON, 2       ; Cambia a 0 el bit 2 de INTCON (Se apaga la bandera)
-    INCF CONTADOR       ; Incrementa el valor de CONTADOR
-    MOVLW 178           ; Se carga 178 a W
-    MOVWF TMR0		; Se carga el valor de n = 78 para obtener los 1000ms
     GOTO POP
 
 POP:
