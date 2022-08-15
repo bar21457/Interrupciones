@@ -73,15 +73,27 @@ PUSH:
     SWAPF STATUS, W
     MOVWF STATUS_TEMP
     
-ISR:
-    BANKSEL PORTB
-    BTFSS PORTB,0       ; Revisa el bit 0 de PORTB, si vale 1 se salta el 
+RBIF:
+    BTFSS INTCON, 0     ; Revisa el bit 0 de INTCON (Bandera de interrupción),
+                        ; si vale 1 se salta el GOTO
+    GOTO TOIF
+    BCF INTCON, 0       ; Cambia a 0 el bit 0 de INTCON (Se apaga la bandera)
+    BTFSS PORTB, 0      ; Revisa el bit 0 de PORTB, si vale 1 se salta el 
                         ; BSF PB
     BSF PB, 0           ; Cambia a 1 el bit 0 de PB
-    BTFSS PORTB,1       ; Revisa el bit 1 de PORTB, si vale 1 se salta el 
+    BTFSS PORTB, 1      ; Revisa el bit 1 de PORTB, si vale 1 se salta el 
                         ; BSF PB
     BSF PB, 1           ; Cambia a 1 el bit 1 de PB
-    BCF INTCON, 0       ; Cambia a 0 el bit 0 de INTCON
+    GOTO POP
+    
+TOIF:
+    BTFSS INTCON, 2     ; Revisa el bit 2 de INTCON (Bandera de interrupción),
+                        ; si vale 1 se salta el GOTO
+    GOTO POP
+    BCF INTCON, 2       ; Cambia a 0 el bit 2 de INTCON (Se apaga la bandera)
+    INCF CONTADOR       ; Incrementa el valor de CONTADOR
+    MOVLW 61            ; Se carga 61 a W
+    MOVWF TMR0          ; Se carga W a TMR0 para que n = 195 y así tener 100ms
     GOTO POP
 
 POP:
@@ -154,9 +166,18 @@ MAIN:
 ;*******************************************************************************
     
 LOOP:
-
     CALL INCREMENTO_A
     CALL DECREMENTO_A
+    GOTO LOOP
+    
+VERIFICACION:
+    MOVF CONTADOR, W    ; Carga el valor de CONTADOR a W
+    SUBLW 10            ; Resta el valor de CONTADOR a 10
+    BTFSS STATUS, 2     ; Se verifica si el resultado es 10, si vale 1, se
+                        ; salta el GOTO
+    GOTO VERIFICACION
+    INCF PORTD, F       ; Incrementa el valor del PORTC
+    CLRF CONTADOR       ; Se limpia CONTADOR
     GOTO LOOP
     
 ;*******************************************************************************
