@@ -46,7 +46,7 @@ PROCESSOR 16F887
 ;Variables
 ;*******************************************************************************
 PSECT udata_bank0
- PB:                            ; Indica el estado del pushbutton
+ PB:                            ; Indica el estado del pushbutton (Bandera)
     DS 1
  W_TEMP:                        ; Guarda temporalmente el contenido de W
     DS 1
@@ -81,7 +81,7 @@ ISR:
     BSF PB, 1           ; Cambia a 1 el bit 1 de PB
     BCF INTCON, 0       ; Cambia a 0 el bit 0 de INTCON
     GOTO POP
-   
+
 POP:
     SWAPF STATUS_TEMP, W
     MOVWF STATUS
@@ -109,11 +109,13 @@ MAIN:
     BSF TRISB, 1        ; Se configura el pin RB1 como un input
     
     BSF INTCON, 7       ; Se activa el GIE (Interrupciones Globales)
+    BSF INTCON, 5       ; Se activa el T0IE (Interrupción del TMR0)
     BSF INTCON, 3       ; Se activa el RBIE (Interrupciones del PORTB)
     BCF INTCON, 0       ; Se activa el RBIF (Banderas de interrupción del PORTB)
    
     BANKSEL PORTB
-    CLRF PORTC          ; Se inicia el puerto
+    CLRF PORTA          ; Se inicia el puerto
+    CLRF PORTB          ; Se inicia el puerto
     CLRF PORTB          ; Se inicia el puerto
 
     BANKSEL IOCB 
@@ -121,7 +123,7 @@ MAIN:
     BSF IOCB, 1         ; Se configura el pin RB1 como un pin de interrupción
     BSF TRISB, 0        ; Se configura el pin RB0 como un input
     BSF TRISB, 1        ; Se configura el pin RB1 como un input
-    CLRF TRISC          ; Se configura el puerto TRISC como un output
+    CLRF TRISA          ; Se configura el puerto TRISA como un output
     
     BANKSEL WPUB 
     BSF WPUB, 0         ; Se configura el pin RB0 con pull-up
@@ -135,8 +137,8 @@ MAIN:
     
 LOOP:
 
-    CALL INCREMENTO_C
-    CALL DECREMENTO_C
+    CALL INCREMENTO_A
+    CALL DECREMENTO_A
     GOTO LOOP
     
 ;*******************************************************************************
@@ -146,19 +148,19 @@ LOOP:
 INCREMENTO_C: 
     BTFSS PB, 0         ; Revisa el bit 0 de PB, si vale 1 se salta el REUTRN
     RETURN              
-    INCF PORTC, F       ; Incrementa el valor del PORTC
-    BTFSC PORTC, 4      ; Revisa el bit 4 de PORTC, si vale 0 se salta CLRF
-    CLRF PORTC          ; Se limpia PORTC
+    INCF PORTA, F       ; Incrementa el valor del PORTC
+    BTFSC PORTA, 4      ; Revisa el bit 4 de PORTC, si vale 0 se salta CLRF
+    CLRF PORTA          ; Se limpia PORTC
     CLRF PB             ; Se limpia PB
     RETURN 
     
 DECREMENTO_C: 
     BTFSS PB, 1         ; Revisa el bit 1 de PB, si vale 1 se salta el REUTRN
     RETURN              
-    DECF PORTC, F       ; Decrementa el valor del PORTC
+    DECF PORTA, F       ; Decrementa el valor del PORTC
     MOVLW 0x0F          ; Se carga 0x0F a W
-    BTFSC PORTC, 4      ; Revisa el bit 4 de PORTC, si vale 0 se salta MOVWF
-    MOVWF PORTC         ; Se carga el valor de W al PORTC
+    BTFSC PORTA, 4      ; Revisa el bit 4 de PORTC, si vale 0 se salta MOVWF
+    MOVWF PORTA         ; Se carga el valor de W al PORTC
     CLRF PB             ; Se limpia PB
     RETURN
     
