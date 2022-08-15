@@ -2501,6 +2501,8 @@ PSECT udata_bank0
     DS 1
  STATUS_TEMP: ; Guarda temporalmente el contenido de STATUS
     DS 1
+ CONTADOR: ; Lleva el control del valor del contador de 1s
+    DS 1
 
 ;*******************************************************************************
 ;Vector Reset
@@ -2520,15 +2522,27 @@ PUSH:
     SWAPF STATUS, W
     MOVWF STATUS_TEMP
 
-ISR:
-    BANKSEL PORTB
-    BTFSS PORTB,0 ; Revisa el bit 0 de PORTB, si vale 1 se salta el
+RRBIF:
+    BTFSS INTCON, 0 ; Revisa el bit 0 de INTCON (Bandera de interrupción),
+                        ; si vale 1 se salta el GOTO
+    GOTO TT0IF
+    BCF INTCON, 0 ; Cambia a 0 el bit 0 de INTCON (Se apaga la bandera)
+    BTFSS PORTB, 0 ; Revisa el bit 0 de PORTB, si vale 1 se salta el
                         ; BSF PB
     BSF PB, 0 ; Cambia a 1 el bit 0 de PB
-    BTFSS PORTB,1 ; Revisa el bit 1 de PORTB, si vale 1 se salta el
+    BTFSS PORTB, 1 ; Revisa el bit 1 de PORTB, si vale 1 se salta el
                         ; BSF PB
     BSF PB, 1 ; Cambia a 1 el bit 1 de PB
-    BCF INTCON, 0 ; Cambia a 0 el bit 0 de INTCON
+    GOTO POP
+
+TT0IF:
+    BTFSS INTCON, 2 ; Revisa el bit 2 de INTCON (Bandera de interrupción),
+                        ; si vale 1 se salta el GOTO
+    GOTO POP
+    BCF INTCON, 2 ; Cambia a 0 el bit 2 de INTCON (Se apaga la bandera)
+    INCF CONTADOR ; Incrementa el valor de CONTADOR
+    MOVLW 61 ; Se carga 61 a W
+    MOVWF TMR0 ; Se carga W a TMR0 para que n = 195 y así tener 100ms
     GOTO POP
 
 POP:
@@ -2565,7 +2579,7 @@ MAIN:
     BANKSEL PORTB
     CLRF PORTA ; Se inicia el puerto
     CLRF PORTB ; Se inicia el puerto
-    CLRF PORTB ; Se inicia el puerto
+    CLRF PORTC ; Se inicia el puerto
 
     BANKSEL IOCB
     BSF IOCB, 0 ; Se configura el pin ((PORTB) and 07Fh), 0 como un pin de interrupción
@@ -2580,14 +2594,39 @@ MAIN:
 
     CLRF PB ; Se limpia PB
 
+    ; Configuración de TMR0
+
+    BANKSEL OPTION_REG ; Selección del banco donde se encuentra OPTION_REG
+
+    BCF OPTION_REG, 5 ; ((OPTION_REG) and 07Fh), 5: selección de FOSC/4 como reloj temporizador
+    BCF OPTION_REG, 3 ; ((OPTION_REG) and 07Fh), 3: asignamos el prescaler al TMR0
+
+    BSF OPTION_REG, 2
+    BSF OPTION_REG, 1
+    BSF OPTION_REG, 0 ; ((OPTION_REG) and 07Fh), 2 -0: Prescaler en 1:256
+
+    BANKSEL PORTB ; Selección del banco donde se encuentra PORTB
+    CLRF CONTADOR ; Se limpia CONTADOR
+    MOVLW 61 ; Se carga 61 a W
+    MOVWF TMR0 ; Se carga el valor de n = 195 para obtener los 100ms
+
 ;*******************************************************************************
 ; Ejecución del programa principal
 ;*******************************************************************************
 
 LOOP:
-
     CALL INCREMENTO_A
     CALL DECREMENTO_A
+    GOTO LOOP
+
+VERIFICACION:
+    MOVF CONTADOR, W ; Carga el valor de CONTADOR a W
+    SUBLW 10 ; Resta el valor de CONTADOR a 10
+    BTFSS STATUS, 2 ; Se verifica si el resultado es 10, si vale 1, se
+                        ; salta el GOTO
+    GOTO VERIFICACION
+    INCF PORTD, F ; Incrementa el valor del PORTC
+    CLRF CONTADOR ; Se limpia CONTADOR
     GOTO LOOP
 
 ;*******************************************************************************

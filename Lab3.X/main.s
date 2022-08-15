@@ -73,10 +73,10 @@ PUSH:
     SWAPF STATUS, W
     MOVWF STATUS_TEMP
     
-RBIF:
+RRBIF:
     BTFSS INTCON, 0     ; Revisa el bit 0 de INTCON (Bandera de interrupción),
                         ; si vale 1 se salta el GOTO
-    GOTO TOIF
+    GOTO TT0IF
     BCF INTCON, 0       ; Cambia a 0 el bit 0 de INTCON (Se apaga la bandera)
     BTFSS PORTB, 0      ; Revisa el bit 0 de PORTB, si vale 1 se salta el 
                         ; BSF PB
@@ -86,7 +86,7 @@ RBIF:
     BSF PB, 1           ; Cambia a 1 el bit 1 de PB
     GOTO POP
     
-TOIF:
+TT0IF:
     BTFSS INTCON, 2     ; Revisa el bit 2 de INTCON (Bandera de interrupción),
                         ; si vale 1 se salta el GOTO
     GOTO POP
