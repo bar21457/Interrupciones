@@ -96,7 +96,38 @@ PSECT CODE, delta=2, abs
  ORG 100h
 
 MAIN:
+
+    BANKSEL OSCCON
+    BSF OSCCON, 0       
+    BCF OPTION_REG, 7   
     
+    BANKSEL ANSEL       ; Selección del banco donde se encuentra ANSEL
+    CLRF ANSEL          
+    CLRF ANSELH         ; Los pines son todas I/O digitales
+    
+    BSF TRISB, 0        ; Se configura el pin RB0 como un input
+    BSF TRISB, 1        ; Se configura el pin RB1 como un input
+    
+    BSF INTCON, 7       ; Se activa el GIE (Interrupciones Globales)
+    BSF INTCON, 3       ; Se activa el RBIE (Interrupciones del PORTB)
+    BCF INTCON, 0       ; Se activa el RBIF (Banderas de interrupción del PORTB)
+   
+    BANKSEL PORTB
+    CLRF PORTC          ; Se inicia el puerto
+    CLRF PORTB          ; Se inicia el puerto
+
+    BANKSEL IOCB 
+    BSF IOCB, 0         ; Se configura el pin RB0 como un pin de interrupción
+    BSF IOCB, 1         ; Se configura el pin RB1 como un pin de interrupción
+    BSF TRISB, 0        ; Se configura el pin RB0 como un input
+    BSF TRISB, 1        ; Se configura el pin RB1 como un input
+    CLRF TRISC          ; Se configura el puerto TRISC como un output
+    
+    BANKSEL WPUB 
+    BSF WPUB, 0         ; Se configura el pin RB0 con pull-up
+    BSF WPUB, 1         ; Se configura el pin RB1 con pull-up
+    
+    CLRF PB             ; Se limpia PB
     
 ;*******************************************************************************
 ; Ejecución del programa principal
