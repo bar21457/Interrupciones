@@ -46,11 +46,13 @@ PROCESSOR 16F887
 ;Variables
 ;*******************************************************************************
 PSECT udata_bank0
- PB:                            ; Indica el estado del pushbutton (Bandera)
+ PB:                    ; Indica el estado del pushbutton (Bandera)
     DS 1
- W_TEMP:                        ; Guarda temporalmente el contenido de W
+ W_TEMP:                ; Guarda temporalmente el contenido de W
     DS 1
- STATUS_TEMP:                   ; Guarda temporalmente el contenido de STATUS
+ STATUS_TEMP:           ; Guarda temporalmente el contenido de STATUS
+    DS 1
+ CONTADOR:              ; Lleva el control del valor del contador de 1s
     DS 1
  
 ;*******************************************************************************
@@ -130,6 +132,22 @@ MAIN:
     BSF WPUB, 1         ; Se configura el pin RB1 con pull-up
     
     CLRF PB             ; Se limpia PB
+    
+    ; Configuración de TMR0
+    
+    BANKSEL OPTION_REG  ; Selección del banco donde se encuentra OPTION_REG
+    
+    BCF OPTION_REG, 5	; T0CS: selección de FOSC/4 como reloj temporizador
+    BCF OPTION_REG, 3	; PSA: asignamos el prescaler al TMR0
+    
+    BSF OPTION_REG, 2
+    BSF OPTION_REG, 1
+    BSF OPTION_REG, 0	; PS2-0: Prescaler en 1:256
+    
+    BANKSEL PORTB       ; Selección del banco donde se encuentra PORTB
+    CLRF CONTADOR	; Se limpia CONTADOR
+    MOVLW 61            ; Se carga 61 a W
+    MOVWF TMR0		; Se carga el valor de n = 195 para obtener los 100ms
     
 ;*******************************************************************************
 ; Ejecución del programa principal
