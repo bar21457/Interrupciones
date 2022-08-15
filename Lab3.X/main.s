@@ -135,6 +135,32 @@ MAIN:
     
 LOOP:
 
+    CALL INCREMENTO_C
+    CALL DECREMENTO_C
+    GOTO LOOP
+    
+;*******************************************************************************
+;Subrutinas
+;*******************************************************************************
+   
+INCREMENTAR_C: 
+    BTFSS PB, 0         ; Revisa el bit 0 de PB, si vale 1 se salta el REUTRN
+    RETURN              
+    INCF PORTC, F       ; Incrementa el valor del PORTC
+    BTFSC PORTC, 4      ; Revisa el bit 4 de PORTC, si vale 0 se salta CLRF
+    CLRF PORTC          ; Se limpia PORTC
+    CLRF PB             ; Se limpia PB
+    RETURN 
+    
+DECREMENTAR_C: 
+    BTFSS PB, 1         ; Revisa el bit 1 de PB, si vale 1 se salta el REUTRN
+    RETURN              
+    DECF PORTC, F       ; Decrementa el valor del PORTC
+    MOVLW 0x0F          ; Se carga 0x0F a W
+    BTFSC PORTC, 4      ; Revisa el bit 4 de PORTC, si vale 0 se salta MOVWF
+    MOVWF PORTC         ; Se carga el valor de W al PORTC
+    CLRF PB             ; Se limpia PB
+    RETURN
     
 ;*******************************************************************************
 ; Fin de Código
