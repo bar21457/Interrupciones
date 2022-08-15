@@ -54,6 +54,10 @@ PSECT udata_bank0
     DS 1
  CONTADOR:              ; Lleva el control del valor del contador de 1s
     DS 1
+ DISP_D:                ; Contiene el valor de las decenas del display
+    DS 1
+ DISP_U:                ; Contiene el valor de las unidades del display
+    DS 1
  
 ;*******************************************************************************
 ;Vector Reset
@@ -149,6 +153,9 @@ MAIN:
     BSF WPUB, 1         ; Se configura el pin RB1 con pull-up
     
     CLRF PB             ; Se limpia PB
+    CLRF CONTADOR       ; Se limpia CONTADOR
+    CLRF DISP_D         ; Se limpia DISP_D
+    CLRF DISP_U         ; Se limpia DISP_U
     
     ; Configuración de TMR0
     
@@ -173,21 +180,56 @@ MAIN:
 LOOP:
     CALL INCREMENTO_A
     CALL DECREMENTO_A
-    
-VERIFICACION:
+    MOVF DISP_U, W	; Carga el valor de DISP_U a W
+    PAGESEL TABLA
+    CALL TABLA		
+    MOVWF PORTC		; Se carga el valor de W a PORTC
+    GOTO VERIFICACION2	
+
+VERIFICACION:    
     MOVF CONTADOR, W    ; Carga el valor de CONTADOR a W
     SUBLW 50            ; Resta el valor de CONTADOR a 50
-    BTFSS STATUS, 2     ; Se verifica si el resultado es 50, si vale 1, se
+    BTFSS STATUS, 2	; Se verifica si el resultado es 0, si vale 1, se
                         ; salta el GOTO
-    GOTO LOOP
-    INCF PORTC, F       ; Incrementa el valor del PORTC
-    CLRF CONTADOR       ; Se limpia CONTADOR
-    GOTO LOOP
+    GOTO VERIFICACION	; Regresa a VERIFICACION hasta que la resta sea 0
+    CLRF CONTADOR	      ; Se limpia CONTADOR
+    INCF DISP_U, F	; Incrementamos el DISP_U
+    GOTO LOOP		
+
+VERIFICACION2:
+    MOVF DISP_U, W	; Carga el valor de DISP_U a W
+    SUBLW 10		; Resta el valor de DISP_U a 10
+    BTFSS STATUS, 2	; Se verifica si el resultado es 0, si vale 1, se
+                        ; salta el GOTO
+    GOTO VERIFICACION	; Regresa a VERIFICACION hasta que la resta sea 0
+    MOVLW 0b0111111	; Se carga 0 a W
+    MOVWF PORTC		; Se carga el valor de W a PORTC
+    CLRF DISP_U         ; Se limpia DISP_U
+    GOTO RELOJ
+
+RELOJ:
+    INCF DISP_D, F	; Se incrementa el valor de DISP_D
+    MOVF DISP_D, W	; Carga el valor de DISP_D a W
+    PAGESEL TABLA
+    CALL TABLA		
+    MOVWF PORTD		; Se carga el valor de W al PORTD
+    GOTO VERIFICACION3	
+
+VERIFICACION3:
+    MOVF DISP_D, W	; Carga el valor de DISP_D a W
+    SUBLW 6		      ; Resta el valor de DISP_D a 50
+    BTFSS STATUS, 2	; Se verifica si el resultado es 0, si vale 1, se
+                        ; salta el GOTO
+    GOTO VERIFICACION	; Regresa a VERIFICACION hasta que la resta sea 0
+    MOVLW 0b0111111	; Se carga 0 a W
+    MOVWF PORTD		; Se carga el valor de W a PORTD
+    CLRF DISP_D	      ; Se limpia DISP_D
+    GOTO VERIFICACION	
     
 ;*******************************************************************************
 ;Subrutinas
 ;*******************************************************************************
-   
+
 INCREMENTO_A: 
     BTFSS PB, 0         ; Revisa el bit 0 de PB, si vale 1 se salta el REUTRN
     RETURN              
@@ -206,6 +248,27 @@ DECREMENTO_A:
     MOVWF PORTA         ; Se carga el valor de W al PORTC
     CLRF PB             ; Se limpia PB
     RETURN
+    
+PSECT CODE, delta=2, abs
+ ORG 0x64
+TABLA:
+    ADDWF PCL, F
+    RETLW 0b0111111	;0
+    RETLW 0b0000110	;1 
+    RETLW 0b1011011	;2 
+    RETLW 0b1001111	;3 
+    RETLW 0b1100110	;4 
+    RETLW 0b1101101	;5 
+    RETLW 0b1111101	;6 
+    RETLW 0b0000111	;7 
+    RETLW 0b1111111	;8 
+    RETLW 0b1101111	;9 
+    RETLW 0b1110111	;A 
+    RETLW 0b1111100	;b
+    RETLW 0b0111001	;C 
+    RETLW 0b1011110	;d 
+    RETLW 0b1111001	;E
+    RETLW 0b1110001	;F 
     
 ;*******************************************************************************
 ; Fin de Código
