@@ -2580,13 +2580,17 @@ MAIN:
     CLRF PORTA ; Se inicia el puerto
     CLRF PORTB ; Se inicia el puerto
     CLRF PORTC ; Se inicia el puerto
+    CLRF PORTD ; Se inicia el puerto
 
     BANKSEL IOCB
     BSF IOCB, 0 ; Se configura el pin ((PORTB) and 07Fh), 0 como un pin de interrupción
     BSF IOCB, 1 ; Se configura el pin ((PORTB) and 07Fh), 1 como un pin de interrupción
     BSF TRISB, 0 ; Se configura el pin ((PORTB) and 07Fh), 0 como un input
     BSF TRISB, 1 ; Se configura el pin ((PORTB) and 07Fh), 1 como un input
+
+    banksel TRISA ; Selección del banco donde se encuentra TRISA
     CLRF TRISA ; Se configura el puerto TRISA como un output
+    CLRF TRISC ; Se configura el puerto TRISC como un output
 
     BANKSEL WPUB
     BSF WPUB, 0 ; Se configura el pin ((PORTB) and 07Fh), 0 con pull-up
@@ -2617,7 +2621,6 @@ MAIN:
 LOOP:
     CALL INCREMENTO_A
     CALL DECREMENTO_A
-    GOTO LOOP
 
 VERIFICACION:
     MOVF CONTADOR, W ; Carga el valor de CONTADOR a W
@@ -2625,7 +2628,7 @@ VERIFICACION:
     BTFSS STATUS, 2 ; Se verifica si el resultado es 10, si vale 1, se
                         ; salta el GOTO
     GOTO VERIFICACION
-    INCF PORTD, F ; Incrementa el valor del PORTC
+    INCF PORTC, F ; Incrementa el valor del PORTC
     CLRF CONTADOR ; Se limpia CONTADOR
     GOTO LOOP
 
