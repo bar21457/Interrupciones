@@ -45,8 +45,13 @@ PROCESSOR 16F887
 ;*******************************************************************************
 ;Variables
 ;*******************************************************************************
-PSECT udata_shr
-
+PSECT udata_bank0
+ PB:                            ; Indica el estado del pushbutton
+    DS 1
+ W_TEMP:                        ; Guarda temporalmente el contenido de W
+    DS 1
+ STATUS_TEMP:                   ; Guarda temporalmente el contenido de STATUS
+    DS 1
  
 ;*******************************************************************************
 ;Vector Reset
@@ -54,6 +59,35 @@ PSECT udata_shr
 PSECT CODE, delta=2, abs
  ORG 0x0000
     GOTO MAIN
+
+;******************************************************************************* 
+; Vector ISR Interrupciones    
+;******************************************************************************* 
+PSECT CODE, delta=2, abs
+ ORG 0x0004
+
+PUSH: 
+    MOVWF W_TEMP
+    SWAPF STATUS, W
+    MOVWF STATUS_TEMP
+    
+ISR:
+    BANKSEL PORTB
+    BTFSS PORTB,0       ; Revisa el bit 0 de PORTB, si vale 1 se salta el 
+                        ; BSF PB
+    BSF PB, 0           ; Cambia a 1 el bit 0 de PB
+    BTFSS PORTB,1       ; Revisa el bit 1 de PORTB, si vale 1 se salta el 
+                        ; BSF PB
+    BSF PB, 1           ; Cambia a 1 el bit 1 de PB
+    BCF INTCON, 0       ; Cambia a 0 el bit 0 de INTCON
+    GOTO POP
+   
+POP:
+    SWAPF STATUS_TEMP, W
+    MOVWF STATUS
+    SWAPF W_TEMP, F
+    SWAPF W_TEMP, W
+    RETFIE
 
 ;*******************************************************************************
 ;Código Principal
