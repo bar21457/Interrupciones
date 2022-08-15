@@ -12,7 +12,7 @@
 # in delta units.  Any other numeric values are decimal.
 %PSECTS
 $build/default/production/main.o
-CODE - 0 0 0 12F 2 1
+CODE - 0 0 0 131 2 1
 udata_bank0 BANK0 1 20 20 3 1 1
 config CONFIG 4 2007 2007 2 2 1
 # %UNUSED Section
@@ -29,14 +29,14 @@ BANK0 23-6F 1
 BANK1 A0-EF 1
 BANK2 110-16F 1
 BANK3 190-1EF 1
-CONST 12F-1FFF 2
-ENTRY 12F-1FFF 2
+CONST 131-1FFF 2
+ENTRY 131-1FFF 2
 IDLOC 2000-2003 2
-CODE 12F-1FFF 2
+CODE 131-1FFF 2
 COMMON 70-7F 1
 EEDATA 2100-21FF 2
-STRCODE 12F-1FFF 2
-STRING 12F-1FFF 2
+STRCODE 131-1FFF 2
+STRING 131-1FFF 2
 # %LINETAB Section
 # This section enumerates the file/line to address mappings.
 # The beginning of the section is indicated by %LINETAB.
@@ -81,37 +81,39 @@ F CODE ABS >86:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\ma
 10A CODE ABS >111:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
 10B CODE ABS >112:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
 10C CODE ABS >113:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
-10D CODE ABS >115:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
-10F CODE ABS >116:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
+10D CODE ABS >114:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
+10E CODE ABS >116:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
 110 CODE ABS >117:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
-111 CODE ABS >119:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
-113 CODE ABS >120:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
-114 CODE ABS >121:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
+111 CODE ABS >118:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
+112 CODE ABS >119:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
+113 CODE ABS >121:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
 115 CODE ABS >122:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
 116 CODE ABS >123:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
 117 CODE ABS >124:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
-118 CODE ABS >126:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
-11A CODE ABS >127:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
-11B CODE ABS >128:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
-11C CODE ABS >130:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
-11D CODE ABS >138:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
-11E CODE ABS >139:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
+118 CODE ABS >125:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
+119 CODE ABS >126:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
+11A CODE ABS >128:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
+11C CODE ABS >129:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
+11D CODE ABS >130:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
+11E CODE ABS >132:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
 11F CODE ABS >140:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
-120 CODE ABS >147:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
-121 CODE ABS >148:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
+120 CODE ABS >141:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
+121 CODE ABS >142:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
 122 CODE ABS >149:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
 123 CODE ABS >150:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
 124 CODE ABS >151:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
 125 CODE ABS >152:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
 126 CODE ABS >153:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
-127 CODE ABS >156:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
-128 CODE ABS >157:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
+127 CODE ABS >154:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
+128 CODE ABS >155:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
 129 CODE ABS >158:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
 12A CODE ABS >159:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
 12B CODE ABS >160:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
 12C CODE ABS >161:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
 12D CODE ABS >162:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
 12E CODE ABS >163:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
+12F CODE ABS >164:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
+130 CODE ABS >165:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\main.s
 # %SYMTAB Section
 # An enumeration of all symbols in the program.
 # The beginning of the section is indicated by %SYMTAB.
@@ -124,7 +126,7 @@ F CODE ABS >86:C:\Users\byron\OneDrive\Documents\GitHub\Interrupciones\Lab3.X\ma
 # was defined in a psect then <psect> will be "-". File-name
 # is the name of the object file in which the symbol was defined.
 %SYMTAB
-__Hspace_0 12F 0 ABS 0 - -
+__Hspace_0 131 0 ABS 0 - -
 __Hspace_1 23 0 ABS 0 - -
 __Hspace_3 0 0 ABS 0 - -
 __Hspace_4 4010 0 ABS 0 - -
@@ -137,7 +139,7 @@ __Hudata 0 0 ABS 0 udata -
 __Hconfig 4012 0 CONFIG 4 config -
 __Ledata 0 0 ABS 0 edata -
 __Ludata 0 0 ABS 0 udata -
-__HCODE 25E 0 ABS 0 CODE -
+__HCODE 262 0 ABS 0 CODE -
 __Hcode 0 0 ABS 0 code -
 __Hdata 0 0 ABS 0 data -
 __LCODE 0 0 ABS 0 CODE -
