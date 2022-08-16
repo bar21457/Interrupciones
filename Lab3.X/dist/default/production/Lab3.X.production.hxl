@@ -11,13 +11,13 @@
   0h - 1h		(dist/default/production\Lab3.X.production.hex)
   8h - 37h		(dist/default/production\Lab3.X.production.hex)
   C8h - E9h		(dist/default/production\Lab3.X.production.hex)
-  200h - 2CDh		(dist/default/production\Lab3.X.production.hex)
+  200h - 2CFh		(dist/default/production\Lab3.X.production.hex)
   400Eh - 4011h		(dist/default/production\Lab3.X.production.hex)
  Unused ranges:
   2h - 7h
   38h - C7h
   EAh - 1FFh
-  2CEh - 400Dh
+  2D0h - 400Dh
 
 ### Hex Memory Map ###
  Legend:
@@ -47,7 +47,7 @@
 00000290 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 000002A0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 000002B0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-000002C0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 -- --
+000002C0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 ----------------------------------------------------------
 00004000 | -- -- -- -- -- -- -- -- -- -- -- -- -- -- H1 H1
 00004010 | H1 H1 -- -- -- -- -- -- -- -- -- -- -- -- -- --

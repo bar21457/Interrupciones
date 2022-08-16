@@ -2596,6 +2596,7 @@ MAIN:
     banksel TRISA ; Selección del banco donde se encuentra TRISA
     CLRF TRISA ; Se configura el puerto TRISA como un output
     CLRF TRISC ; Se configura el puerto TRISC como un output
+    CLRF TRISD ; Se configura el puerto TRISD como un output
 
     BANKSEL WPUB
     BSF WPUB, 0 ; Se configura el pin ((PORTB) and 07Fh), 0 con pull-up
